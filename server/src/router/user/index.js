@@ -26,8 +26,27 @@ Router.post('/register',function(req,res) {
            res.json({code:1,data:doc});
         });
     },function() {
-        res.json({code:12,msg:'用户已存在'})
+        res.json({code:0,msg:'用户已存在'})
     });
 });
 
+Router.post('/login',function(req,res) {
+    const {pwd,user} = req.body; 
+    const model = models.getModel('user');
+    try {
+        model.findOne({pwd:util.md5(pwd),user},(err,doc)=>{
+            if(err) throw err;
+            console.log(doc);
+            if(!doc) {
+                //fail
+                res.json({code:0,msg:'登陆失败'});
+            } else {
+                //success
+                res.json({code:1,data:doc});
+            }
+        });
+    }catch(e) {
+        res.json({code:500,msg:'服务器故障'});
+    }
+});
 module.exports = Router;

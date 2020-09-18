@@ -1,4 +1,4 @@
-import {REGISTER_FAIL,REGISTER_SUCCESS} from './action-types';
+import {REGISTER_FAIL,REGISTER_SUCCESS,LOGIN_SUCCESS} from './action-types';
 import axios from 'axios';
 const getRegisterSuccessAction = function(payload) {
     return {
@@ -12,6 +12,7 @@ const getRegisterFailAction = function(msg) {
         msg
     };
 }
+
 const register = function({user,pwd,repeatPwd,type}) {
     if(!user||!pwd||!repeatPwd||!type) {
         return getRegisterFailAction('信息不能为空');
@@ -32,6 +33,27 @@ const register = function({user,pwd,repeatPwd,type}) {
         });
     };
 }
+const getLoginSuccessAction = function(data) {
+    return {
+        type:LOGIN_SUCCESS,
+        payload:data
+    }
+};
+const login = function(user,pwd) {
+    if(!user||!pwd) {
+        return getRegisterFailAction('用户、密码不能为空');
+    }
+    return dispatch=>{
+        axios.post('/user/login',{user,pwd}).then(res=>{
+            if(res.status===200&&res.data.code===1) {
+                dispatch(getLoginSuccessAction(res.data.data)); 
+            } else {
+                dispatch(getRegisterFailAction(res.data.msg)); 
+            }
+        });
+    };
+};
 export {
-    register
+    register,
+    login
 }

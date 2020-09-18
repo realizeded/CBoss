@@ -1,5 +1,5 @@
 import {fromJS} from 'immutable';
-import {REGISTER_FAIL,REGISTER_SUCCESS} from './action-types';
+import {REGISTER_FAIL,REGISTER_SUCCESS,LOGIN_SUCCESS} from './action-types';
 import {combineReducers} from 'redux-immutable';
 import {getRedircetTo} from '../util';
 const defaultState = fromJS(
@@ -32,6 +32,13 @@ const mapActions = {
             type:'',
             redirceTo:'',
             avater:''
+        });
+    },
+    [LOGIN_SUCCESS](state,action) {
+        const {payload:data,type} = action;
+        return state.merge({
+            ...data,
+            redirceTo:getRedircetTo(type,state.get('avater'))
         });
     }
 };
