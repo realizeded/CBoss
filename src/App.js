@@ -9,9 +9,9 @@ function App(props) {
     return (
         <Provider store={store}>
             <BrowserRouter>
-                <Route path="/" component={Auth}/>
+                <Auth/>
                 <Route path="/login" exact component={Login}></Route>
-                <Route path="/Register" exact component={Register}></Route>
+                <Route path="/register" exact component={Register}></Route>
             </BrowserRouter>
         </Provider>
     )
