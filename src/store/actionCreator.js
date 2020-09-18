@@ -1,4 +1,4 @@
-import {REGISTER_FAIL,REGISTER_SUCCESS,LOGIN_SUCCESS} from './action-types';
+import {REGISTER_FAIL,REGISTER_SUCCESS,LOGIN_SUCCESS,RELOAD_DATA} from './action-types';
 import axios from 'axios';
 const getRegisterSuccessAction = function(payload) {
     return {
@@ -53,7 +53,20 @@ const login = function(user,pwd) {
         });
     };
 };
+const getReloadDataAction = function(data) {
+    return {
+        type:RELOAD_DATA,
+        payload:data
+    }
+};
+const reloadData = function(data) {
+    return dispatch=>{
+        const action = getReloadDataAction(data);
+        dispatch(action);
+    };
+};
 export {
     register,
-    login
+    login,
+    reloadData
 }

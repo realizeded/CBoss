@@ -6,8 +6,5 @@
  */
 export function getRedircetTo(type,avater) {
     let path = type+'info';
-    if(avater.length===0) {
-        path = 'information'
-    }
     return path;
 }

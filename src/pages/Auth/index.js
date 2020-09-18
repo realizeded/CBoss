@@ -1,6 +1,8 @@
 import React,{Component} from 'react';
 import axios from 'axios';
 import {withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {reloadData} from '../../store/actionCreator';
 class Auth extends Component {
     constructor(props) {
         super(props);
@@ -19,6 +21,7 @@ class Auth extends Component {
                 let code = data.code;
                 if(code===1) {
                     //用户已经登陆 跳转
+                    this.props.handleReload(data.data);
                 } else {
                     this.props.history.push('/login');
                 }
@@ -29,4 +32,17 @@ class Auth extends Component {
         return null;
     }
 }
-export default withRouter(Auth);
+const mapStateToProps = function(data) {
+    return {
+
+    };
+};
+const mapDispatchToProps = function(dispatch) {
+    return {
+        handleReload(data) {
+            const action = reloadData(data);
+            dispatch(action);
+        }
+    }
+};
+export default connect(mapStateToProps,mapDispatchToProps)(withRouter(Auth));

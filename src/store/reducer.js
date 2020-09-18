@@ -1,5 +1,5 @@
 import {fromJS} from 'immutable';
-import {REGISTER_FAIL,REGISTER_SUCCESS,LOGIN_SUCCESS} from './action-types';
+import {REGISTER_FAIL,REGISTER_SUCCESS,LOGIN_SUCCESS,RELOAD_DATA} from './action-types';
 import {combineReducers} from 'redux-immutable';
 import {getRedircetTo} from '../util';
 const defaultState = fromJS(
@@ -20,7 +20,7 @@ const mapActions = {
             errMsg:'',
             isAuth:true,
             ...payload,
-            redirceTo:getRedircetTo(type,state.get('avater')),
+            redirceTo:getRedircetTo(payload.type,state.get('avater')),
         });
     },
     [REGISTER_FAIL](state,action) {
@@ -35,10 +35,19 @@ const mapActions = {
         });
     },
     [LOGIN_SUCCESS](state,action) {
-        const {payload:data,type} = action;
+        const {payload:data} = action;
         return state.merge({
             ...data,
-            redirceTo:getRedircetTo(type,state.get('avater'))
+            isAuth:true,
+            redirceTo:getRedircetTo(data.type,state.get('avater'))
+        });
+    },
+    [RELOAD_DATA](state,action) {
+        const {payload:data} = action;
+        return state.merge({
+            ...state,
+            ...data,
+            isAuth:true
         });
     }
 };
