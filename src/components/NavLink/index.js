@@ -13,6 +13,7 @@ class NavLink extends React.Component {
           <div>
               <TabBar>
                   {
+                      
                       data.map(v=>{
                             return (
                                 <TabBar.Item
