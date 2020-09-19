@@ -1,5 +1,5 @@
 import {fromJS} from 'immutable';
-import {REGISTER_FAIL,REGISTER_SUCCESS,LOGIN_SUCCESS,RELOAD_DATA} from './action-types';
+import {REGISTER_FAIL,REGISTER_SUCCESS,LOGIN_SUCCESS,RELOAD_DATA,SAVE_INFORMATION} from './action-types';
 import {combineReducers} from 'redux-immutable';
 import {getRedircetTo} from '../util';
 const defaultState = fromJS(
@@ -14,13 +14,21 @@ const defaultState = fromJS(
     }
 );
 const mapActions = {
+    [SAVE_INFORMATION](state,action) {
+        const {payload:data,type} = action;
+        return state.merge({
+            ...state,
+            ...data,
+            redirceTo:getRedircetTo(data.type,data['avater'])
+        })
+    },
     [REGISTER_SUCCESS](state,action) {
         const {payload,type} = action;
         return state.merge({
             errMsg:'',
             isAuth:true,
             ...payload,
-            redirceTo:getRedircetTo(payload.type,state.get('avater')),
+            redirceTo:getRedircetTo(payload.type,""),
         });
     },
     [REGISTER_FAIL](state,action) {
@@ -39,7 +47,7 @@ const mapActions = {
         return state.merge({
             ...data,
             isAuth:true,
-            redirceTo:getRedircetTo(data.type,state.get('avater'))
+            redirceTo:getRedircetTo(data.type,data['avater'])
         });
     },
     [RELOAD_DATA](state,action) {
@@ -47,7 +55,8 @@ const mapActions = {
         return state.merge({
             ...state,
             ...data,
-            isAuth:true
+            isAuth:true,
+            
         });
     }
 };

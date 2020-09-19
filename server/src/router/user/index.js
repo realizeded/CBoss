@@ -66,4 +66,21 @@ Router.post('/login',function(req,res) {
         res.json({code:500,msg:'服务器故障'});
     }
 });
+
+Router.post('/update',(req,res)=>{
+    const model = models.getModel('user');
+    const id = req.cookies.userId;
+    const body = req.body;
+    model.findByIdAndUpdate(id,body,(err,doc)=>{
+        if(doc) {
+            const data = Object.assign({},{
+                user:doc.user,
+                type:doc.type
+              },body);
+            res.json({code:1,data});     
+        } else {
+            res.json({code:0,msg:'保存失败'});
+        }
+    });
+});
 module.exports = Router;

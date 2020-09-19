@@ -15,7 +15,11 @@ const models = {
         user:{type:String,require:true},
         pwd:{type:String,require:true},
         type:{type:String,require:true},
-        avater:{type:String,require:true}
+        avater:{type:String,require:true},
+        company:{type:String,require:true},
+        money:{type:String,require:true},
+        desc:{type:String,require:true},
+        title:{type:String,require:true}
     },
     chat:{
 

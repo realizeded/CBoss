@@ -23,7 +23,7 @@ class Auth extends Component {
                     //用户已经登陆 跳转
                     this.props.handleReload(data.data);
                 } else {
-                    this.props.history.push('/login');
+                    this.props.history.replace('/login');
                 }
             }
         });

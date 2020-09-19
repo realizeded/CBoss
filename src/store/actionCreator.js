@@ -1,4 +1,4 @@
-import {REGISTER_FAIL,REGISTER_SUCCESS,LOGIN_SUCCESS,RELOAD_DATA} from './action-types';
+import {REGISTER_FAIL,REGISTER_SUCCESS,LOGIN_SUCCESS,RELOAD_DATA,SAVE_INFORMATION} from './action-types';
 import axios from 'axios';
 const getRegisterSuccessAction = function(payload) {
     return {
@@ -65,8 +65,28 @@ const reloadData = function(data) {
         dispatch(action);
     };
 };
+const getSaveInformationAction = function(data) {
+    return {
+        type:SAVE_INFORMATION,
+        payload:data
+    }
+}
+const saveInformation = function(formData) {
+     return async dispatch=> {
+        const {status,data} = await axios.post('/user/update',formData);
+        if(status===200&&data.code===1) {
+            //success save update bossinfo
+            const action = getSaveInformationAction(data.data);
+            dispatch(action);
+
+        } else {
+            dispatch(getRegisterFailAction(data.msg)); 
+        }
+     };
+}
 export {
     register,
     login,
-    reloadData
+    reloadData,
+    saveInformation
 }

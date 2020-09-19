@@ -5,11 +5,13 @@ import {FixedButtonWrapper} from './style';
 import {connect} from 'react-redux';
 import {saveInformation} from '../../store/actionCreator';
 import {Redirect} from 'react-router-dom';
-class BossInfo extends Component {
+class GeniusInfo extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            avater:''
+            avater:'',
+            desc:'',
+            title:''
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
@@ -33,13 +35,13 @@ class BossInfo extends Component {
         const {redirceTo} = this.props;
         return (
             <div>
-                 {
-                     redirceTo.length===0?null:<Redirect to={redirceTo}/>
-                 }
+                {
+                    redirceTo.length===0?null:<Redirect to={redirceTo}/>
+                }
                  <NavBar
                     mode="dark"
                     >
-                    boss信息完善
+                    Genius信息完善
                 </NavBar>
                 <AvaterSelector
                  avater={this.state.avater}
@@ -47,16 +49,10 @@ class BossInfo extends Component {
                  />
                 <List>
                     <InputItem onChange={v=>this.handleChange('title',v)}>
-                    招聘职位
+                    职位
                     </InputItem>
-                    <InputItem onChange={v=>this.handleChange('company',v)}>
-                    公司名称
-                    </InputItem>
-                    <InputItem onChange={v=>this.handleChange('money',v)}>
-                    职位薪资
-                    </InputItem>
-                    <TextareaItem
-                     title="职位要求"
+                 <TextareaItem
+                     title="个人简介"
                      autoHeight
                      labelNumber={4}
                      onChange={v=>this.handleChange('desc',v)}
@@ -86,4 +82,4 @@ const mapDispatchProps = function(dispatch) {
         }
     };
 }
-export default connect(mapStateToProps,mapDispatchProps)(BossInfo);
+export default connect(mapStateToProps,mapDispatchProps)(GeniusInfo);

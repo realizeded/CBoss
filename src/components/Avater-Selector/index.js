@@ -1,7 +1,14 @@
 import React,{Component} from 'react';
 import {Grid,List} from 'antd-mobile';
+import PropTypes from 'prop-types';
 const path = 'boy.png,bull.png,chick.png,crab.png,girl.png,hedgehog.png,hippopotamus.png,koala.png,lemur.png,man.png,pig.png,tiger.png,whale.png,woman.png,zebra.png';
 class AvaterSelector extends Component {
+    static propTypes = {
+        handleSelect:PropTypes.func.isRequired
+    }
+    static defaultProps = {
+        handleSelect:v=>v
+    }
     constructor(props) {
         super(props);
         this.state = {};
@@ -9,7 +16,6 @@ class AvaterSelector extends Component {
     }
     handleSelectAvater(el) {
         const img = el.icon;
-       
         this.props.handleSelect(img)
     }
     render() {
