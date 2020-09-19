@@ -8,3 +8,6 @@ const SALT_STR = '!@#$%%.shwuq1212?//';
 exports.md5 = function(str) {
     return utility.md5(utility.md5(utility.md5(str+SALT_STR)));
 };
+exports.getMaxAge = function() {
+    return 24*60*60;
+}

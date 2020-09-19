@@ -29,7 +29,7 @@ for(let key in models) {
 
 module.exports = {
     getModel(name) {
-        
+
         return mongoose.model(name);
     }
 }
