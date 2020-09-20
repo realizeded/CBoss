@@ -8,10 +8,13 @@ import Register from './pages/Registers';
 import BossInfo from './pages/BossInfo';
 import GeniusInfo from './pages/GeniusInfo';
 import HashBoard from './pages/HashBoard';
+
 function App(props) {
     return (
         <Provider store={store}>
+
             <BrowserRouter>
+           
                 <Auth/>
                 <Switch>
                     <Route path="/geniusInfo" component={GeniusInfo}/>

@@ -1,21 +1,26 @@
 import React,{Component} from 'react';
-import {NavBarWrapper,TabBarWrapper} from './style';
-import { NavBar } from 'antd-mobile';
+import {NavBarWrapper,TabBarWrapper,ContentWrapper} from './style';
+import { NavBar,Modal} from 'antd-mobile';
 import {connect} from 'react-redux';
 import NavLink from '../../components/NavLink';
-function boss(props) {
-    return (<div>genius</div>);
-}
-function genius(props) {
+import {Switch,Route} from 'react-router-dom';
+import Boss from '../Boss';
+// function boss(props) {
+//     return (<div>genius</div>);
+// }
+import Genius from '../Genius';
+/* function genius(props) {
     return (<div>boss</div>);
-}
+} */
+import Person from '../Person';
 function msg(props) {
     return (<div>msg</div>);
 }
-function person(props) {
+
+/* function person(props) {
     return (<div>person</div>);
 }
-
+ */
 class HashBoard extends Component {
     constructor(props) {
         super(props);
@@ -29,7 +34,7 @@ class HashBoard extends Component {
             {
                 title:"牛人列表",
                 text:'牛人',
-                component:boss,
+                component:Boss,
                 path:'/boss',
                 icon:'boss',
                 show:type==='boss'
@@ -37,8 +42,9 @@ class HashBoard extends Component {
             {
                 title:"寻找工作",
                 text:'boss',
-                component:genius,
+                component:Genius,
                 path:'/genius',
+
                 icon:'job',
                 show:type==='genius'
             },
@@ -52,7 +58,7 @@ class HashBoard extends Component {
             {
                 title:"个人中心",
                 text:'我的',
-                component:person,
+                component:Person,
                 path:'/person',
                 icon:'user'
             }
@@ -67,7 +73,20 @@ class HashBoard extends Component {
                         {title}
                     </NavBar>
                     </NavBarWrapper>
-                    <div>content</div>
+                    <ContentWrapper>
+                        <Switch>
+                            {
+                                NavList.map(v=>{
+                                    if(v.show===false) {
+                                        return null;
+                                    }
+                                    return (
+                                        <Route key={v.path} path={v.path} component={v.component}/>
+                                    )                
+                                })
+                            }
+                        </Switch>
+                    </ContentWrapper>
                     <TabBarWrapper>
                         <NavLink data={NavList}/>
                         </TabBarWrapper>

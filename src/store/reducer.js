@@ -2,6 +2,7 @@ import {fromJS} from 'immutable';
 import {REGISTER_FAIL,REGISTER_SUCCESS,LOGIN_SUCCESS,RELOAD_DATA,SAVE_INFORMATION} from './action-types';
 import {combineReducers} from 'redux-immutable';
 import {getRedircetTo} from '../util';
+import chatReducer from './reducers/chatuser.redux';
 const defaultState = fromJS(
     {
       isAuth:false,
@@ -68,5 +69,6 @@ const userReducer = function (state=defaultState,action) {
     return state;
 };
 export default combineReducers({
-    user:userReducer
+    user:userReducer,
+    chatUser:chatReducer
 });
