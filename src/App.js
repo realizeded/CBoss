@@ -8,7 +8,7 @@ import Register from './pages/Registers';
 import BossInfo from './pages/BossInfo';
 import GeniusInfo from './pages/GeniusInfo';
 import HashBoard from './pages/HashBoard';
-
+import Chat from './pages/Chat';
 function App(props) {
     return (
         <Provider store={store}>
@@ -21,6 +21,7 @@ function App(props) {
                     <Route path="/bossinfo" component={BossInfo}/>
                     <Route path="/login" exact component={Login}></Route>
                     <Route path="/register" exact component={Register}></Route>
+                    <Route path="/chat" exact component={Chat}></Route>
                     <Route component={HashBoard}/>
                 </Switch>
             </BrowserRouter>

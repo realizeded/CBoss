@@ -8,14 +8,18 @@ class Genius extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
+        this.handleGoHeadChat = this.handleGoHeadChat.bind(this);
     }
     render() {
         const {boss,type} = this.props;
 
         return (
-        <UserList userList={boss} type={type}/>
+        <UserList handleGoHeadChat={this.handleGoHeadChat}  userList={boss} type={type}/>
         );
         
+    }
+    handleGoHeadChat(user) {
+        this.props.history.push('/chat?user='+user);
     }
     componentDidMount() {
       this.props.getList();

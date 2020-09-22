@@ -3,19 +3,28 @@ import {Result,Icon,List,Modal} from 'antd-mobile';
 import {connect} from 'react-redux';
 import cookies from 'browser-cookies';
 import {Em} from './styled';
+import {clearUserInfo} from '../../store/actionCreator';
+import {Redirect} from 'react-router-dom';
 const alert = Modal.alert;
 class Person extends Component {
     constructor(props) {
         super(props);
         this.state = {};
+        this.handlePageScroll = this.handlePageScroll.bind(this);
     }
     handleAlterConfirm() {
-        cookies.set('userId','');
-        window.location.reload(true);
+       /*  cookies.set('userId','');
+        window.location.reload(true); */
+        this.props.logOut();
     }
     render() {
         const user = this.props.user;
+        const redirectTo = user.get('redirceTo')||'';
         const Item = List.Item;
+        if(redirectTo==='/login') {
+           
+            return <Redirect to={redirectTo}/>;
+        }
         return (
             <div>
                 <Result 
@@ -52,6 +61,15 @@ class Person extends Component {
             </div>
         );
     }
+    componentDidMount() {
+        const {pathname} = this.props.location;
+        if(pathname==='/boss'||pathname==='genius') {
+            this.handlePageScroll();
+        }
+    }
+    handlePageScroll() {
+
+    }
 }
 const mapStateToProps = function(state){
     return {
@@ -60,7 +78,10 @@ const mapStateToProps = function(state){
 }
 const mapDispatchToProps = function(dispatch) {
     return {
-
+        logOut() {
+            const action = clearUserInfo();
+            dispatch(action);
+        }
     }
 };
 export default connect(mapStateToProps,mapDispatchToProps)(Person);

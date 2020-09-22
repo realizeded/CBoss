@@ -14,6 +14,7 @@ function UserList(props) {
                                 title={v.get('user')}
                                 thumb={v.get('avater')||""}
                                 extra={v.get('title')}
+                                onClick={()=>props.handleGoHeadChat(v.get('_id'))}
                             />
                             <Body style={{lineHeight:'30px'}}>
                              {

@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import {NavBarWrapper,TabBarWrapper,ContentWrapper} from './style';
-import { NavBar,Modal} from 'antd-mobile';
+import { NavBar} from 'antd-mobile';
 import {connect} from 'react-redux';
 import NavLink from '../../components/NavLink';
 import {Switch,Route} from 'react-router-dom';
@@ -13,10 +13,11 @@ import Genius from '../Genius';
     return (<div>boss</div>);
 } */
 import Person from '../Person';
-function msg(props) {
+
+function Msg(props) {
     return (<div>msg</div>);
 }
-
+// import Chat from '../Chat';
 /* function person(props) {
     return (<div>person</div>);
 }
@@ -51,7 +52,7 @@ class HashBoard extends Component {
             {
                 title:"消息列表",
                 text:'消息',
-                component:msg,
+                component:Msg,
                 path:'/msg',
                 icon:'msg'
             },
@@ -63,7 +64,8 @@ class HashBoard extends Component {
                 icon:'user'
             }
         ];
-        const title = (NavList.find(v=>v.path===pathname)).title; 
+
+        const title = (NavList.find(v=>v.path.includes(pathname))).title; 
         return (
             <div>
                 <NavBarWrapper>

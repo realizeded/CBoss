@@ -8,13 +8,17 @@ class Boss extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
+        this.handleGoHeadChat = this.handleGoHeadChat.bind(this);
     }
     render() {
         const {genius} = this.props;
-        return (<UserList userList={genius}/>)
+        return (<UserList handleGoHeadChat={this.handleGoHeadChat} userList={genius}/>)
     }
     componentDidMount() {
       this.props.getList();
+    }
+    handleGoHeadChat(user) {
+        this.props.history.push('/chat?user='+user);
     }
 }
 const mapDispatchToProps = function(dispatch) {

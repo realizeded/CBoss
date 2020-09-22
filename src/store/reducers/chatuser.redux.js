@@ -6,6 +6,7 @@ const defaultState = fromJS({
 });
 //action-types
 const USER_LIST_LOAD = 'USER_LIST_LOAD';
+const CLEAR_USER = 'CLEAR_USER';
 //action-creators
 const getListReloadAction = function(data) {
     return {
@@ -24,6 +25,17 @@ export const getList = function(type) {
     };
 }
 //action methods
+const getClearUserAction = function() {
+    return {
+        type:CLEAR_USER
+    };
+}
+export const getClearUser = function(dispatch) {
+    return dispatch=>{
+        const action = getClearUserAction();
+        dispatch(action);
+    };
+}
 const actionMethods = {
     [USER_LIST_LOAD](state,action) {
         const {payload:data} = action;

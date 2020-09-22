@@ -23,7 +23,7 @@ class Login extends React.Component{
             <LoginWrapper>
                 <Logo/>
                 {
-                    redirceTo.length===0?null:<Redirect to={redirceTo}/>
+                    redirceTo.length===0||redirceTo==='/login'?null:<Redirect to={redirceTo}/>
                 }
                 <div>
                     <WingBlank>

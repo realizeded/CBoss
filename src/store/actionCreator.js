@@ -1,4 +1,4 @@
-import {REGISTER_FAIL,REGISTER_SUCCESS,LOGIN_SUCCESS,RELOAD_DATA,SAVE_INFORMATION} from './action-types';
+import {CLEAR_USER,REGISTER_FAIL,REGISTER_SUCCESS,LOGIN_SUCCESS,RELOAD_DATA,SAVE_INFORMATION} from './action-types';
 import axios from 'axios';
 const getRegisterSuccessAction = function(payload) {
     return {
@@ -84,9 +84,21 @@ const saveInformation = function(formData) {
         }
      };
 }
+const getClearUserInfoAction = function() {
+    return {
+        type:CLEAR_USER
+    };
+}
+const clearUserInfo = function(dispatch) {
+    return dispatch=>{
+        const action = getClearUserInfoAction();
+        dispatch(action);
+    };
+};
 export {
     register,
     login,
     reloadData,
-    saveInformation
+    saveInformation,
+    clearUserInfo
 }

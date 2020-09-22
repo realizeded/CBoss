@@ -1,8 +1,10 @@
 import {fromJS} from 'immutable';
-import {REGISTER_FAIL,REGISTER_SUCCESS,LOGIN_SUCCESS,RELOAD_DATA,SAVE_INFORMATION} from './action-types';
+import {CLEAR_USER,REGISTER_FAIL,REGISTER_SUCCESS,LOGIN_SUCCESS,RELOAD_DATA,SAVE_INFORMATION} from './action-types';
 import {combineReducers} from 'redux-immutable';
 import {getRedircetTo} from '../util';
+import cookie from 'browser-cookies';
 import chatReducer from './reducers/chatuser.redux';
+import chat from './reducers/chat.redux';
 const defaultState = fromJS(
     {
       isAuth:false,
@@ -59,6 +61,15 @@ const mapActions = {
             isAuth:true,
             
         });
+    },
+    [CLEAR_USER](state,action) {
+        cookie.erase('userId');
+        return fromJS({
+            ...state,
+            redirceTo:'/login',
+            errMsg:''
+        });
+
     }
 };
 const userReducer = function (state=defaultState,action) {
@@ -70,5 +81,6 @@ const userReducer = function (state=defaultState,action) {
 };
 export default combineReducers({
     user:userReducer,
-    chatUser:chatReducer
+    chatUser:chatReducer,
+    chat
 });
