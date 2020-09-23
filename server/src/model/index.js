@@ -22,7 +22,12 @@ const models = {
         title:{type:String,require:true}
     },
     chat:{
-
+        chatId:{type:String,require:true},
+        from:{type:String,require:true},
+        to:{type:String,require:true},
+        content:{type:String,require:true},
+        createtime:{type:String,require:true,default:Date.now()},
+        read:{type:Boolean,require:true,default:false}
     }
 }
 for(let key in models) {

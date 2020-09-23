@@ -15,6 +15,7 @@ const TabBarWrapper = styled.div`
 const ContentWrapper = styled.div`
     padding-top:45px;
     padding-bottom:50px;
+ 
 `;
 export {
     NavBarWrapper,

@@ -5,10 +5,34 @@ const filterKey = {
     pwd:0,
     _v:0
 };
+
+Router.get('/msgs',(req,res)=>{
+    const userId = req.cookies.userId;
+    const to = req.query.to;
+    const chat = models.getModel('chat');
+    const user = models.getModel('user');
+    const users = {};
+    let filterObj = [{from:userId,to},{to:userId,from:to}];
+    if(Object.is('me',to)) {
+       delete filterObj[0].to;
+       delete filterObj[1].from;
+    }
+    user.find({},(err,doc)=>{
+        const users = {};
+        doc.forEach(v=>{
+            users[v._id] = v;
+        });
+        chat.find({'$or':filterObj},(err,doc)=>{
+            res.json({code:1,data:{msgs:doc,users}});
+        });
+    });
+});
 Router.get('/list',function(req,res) {
+
+    const {type} = req.query;
     const model = models.getModel('user')
-    model.find({},(err,doc)=>{
-        res.json(doc);
+    model.find({type},(err,doc)=>{
+        res.json({code:1,data:doc});
     });
 });
 Router.get('/info',function(req,res,next) {

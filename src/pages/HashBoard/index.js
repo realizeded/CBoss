@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import NavLink from '../../components/NavLink';
 import {Switch,Route} from 'react-router-dom';
 import Boss from '../Boss';
+import {loadMsg,getChaneEnterHashBoardFlagAction} from '../../store/reducers/chat.redux';
 // function boss(props) {
 //     return (<div>genius</div>);
 // }
@@ -90,15 +91,36 @@ class HashBoard extends Component {
                         </Switch>
                     </ContentWrapper>
                     <TabBarWrapper>
-                        <NavLink data={NavList}/>
+                        <NavLink badgeNum={this.props.badgeNum} data={NavList}/>
                         </TabBarWrapper>
             </div>
         );
     }
+    componentDidMount() {
+        if(!this.props.enterFlag) {
+            this.props.loadMsg();
+        }
+        this.props.enterHashBoard();
+    }
 }
 const mapStateToProps = function(state) {
     return {
-        type:state.getIn(['user','type'])
+        type:state.getIn(['user','type']),
+        badgeNum:state.getIn(['chat','unread']),
+        chat:state.getIn(['chat','msgs']),
+        enterFlag:state.getIn(['chat','enterHashBoardFlag'])
     }
 };
-export default connect(mapStateToProps,null)(HashBoard);
+const mapDispatchToProps = function(dispatch) {
+    return {
+        loadMsg() {
+            const action = loadMsg('me');
+            dispatch(action);
+        },
+        enterHashBoard() {
+            const action = getChaneEnterHashBoardFlagAction;
+            dispatch(action);
+        }    
+    }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(HashBoard);

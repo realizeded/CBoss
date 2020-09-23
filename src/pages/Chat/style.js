@@ -6,12 +6,22 @@ const ChatWrapper = styled.div`
     left:0;
     right:0;
     background-color:#ecf0f1;
+    .body-list {
+        margin-top:45px;
+    }
+    .am-list-item {
+        padding-left:0;
+    }
+    .am-list-extra {
+        width:20px;
+    }
 `;
 const Footer = styled.div`
     position:absolute;
     bottom:0;
     left:0;
     right:0;
+    z-index:9;
 `;
 const ScrollWrapper = styled.div`
     
@@ -20,8 +30,15 @@ const ScrollWrapper = styled.div`
     box-sizing:border-box;
     overflow:auto;
 `;
-
+const NavBarWrapper = styled.div`
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    z-index:1;
+`;
 export {
+    NavBarWrapper,
     ChatWrapper,
     Footer,
     ScrollWrapper

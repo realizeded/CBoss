@@ -9,6 +9,8 @@ class NavLink extends React.Component {
     render() {
         const data = this.props.data.filter(v=>v.show!==false);
         const {pathname} = this.props.location;
+        const {badgeNum} = this.props;
+        // alert(badgeNum)
         return (
           <div>
               <TabBar>
@@ -17,6 +19,7 @@ class NavLink extends React.Component {
                       data.map(v=>{
                             return (
                                 <TabBar.Item
+                                  badge={badgeNum===0||v.path!=='/msg'?'':badgeNum}
                                   title={v.text}
                                   key={v.text}
                                   selected={pathname===v.path}
