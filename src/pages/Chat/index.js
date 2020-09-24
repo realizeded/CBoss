@@ -1,24 +1,37 @@
 import React,{Component} from 'react';
 // import io from 'socket.io-client';
-import {InputItem,NavBar,List,Icon} from 'antd-mobile';
+import {InputItem,NavBar,List,Icon,Grid} from 'antd-mobile';
 import {ChatWrapper,Footer,ScrollWrapper,NavBarWrapper} from './style';
 import {connect} from 'react-redux';
-import {loadMsg,sendMsg} from '../../store/reducers/chat.redux';
+import {loadMsg,sendMsg,readCurrentMsg} from '../../store/reducers/chat.redux';
 /* const socket = io('http://localhost:8989'); */
+const emoji = '😀 😁 😂 🤣 😃 😄 😅 😆 😉 😊 😋 😎 😍 😘 😗 😙 😚 ☺️ 🙂 🤗 🤩 🤔 🤨 😐 😑 😶 🙄 😏 😣 😥 😮 🤐 😯 😪 😫 😴 😌 😛 😜 😝 🤤 😒 😓 😔 😕 🙃 🤑 😲 ☹️ 🙁 😖 😞 😟 😤 😢 😭 😦 😧 😨 😩 🤯 😬 😰 😱 😳 🤪 😵 😡 😠 🤬 😷 🤒 🤕 🤢 🤮 🤧 😇 🤠 🤡 🤥 🤫 🤭 🧐 🤓 😈 👿 👹 👺 💀 👻 👽 🤖 💩 😺 😸 😹 😻 😼 😽 🙀 😿 😾'
+.split(' ').filter(v=>v).map(v=>({text:v}));
 
 class Chat extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            list:[]
+            list:[],
+            text:''
         };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     handleSubmit(e) {
-        let value = this.input.state.value;
-        this.input.state.value = '';
+        let value = this.state.text;
+        this.setState(()=>{
+            return {
+                text:'',
+                showEmoji:false
+            }
+        })
         
         this.props.sendMsg({to:this.to,from:this.from,msg:value});
+    }
+    fixedGrid() {
+        window.setTimeout(()=>{
+            window.dispatchEvent(new Event('resize'));
+        },0);
     }
     render() {
         let to = this.props.location.search;
@@ -49,8 +62,8 @@ class Chat extends Component {
             <div class="body-list">
                 <List>
                 {
-                    msgs.map(v=>{
-                        return (<div key={v.get('createtime')}>
+                    msgs.map((v,index)=>{
+                        return (<div key={index}>
                            
                            {v.get('from')===this.from?(
                              <List.Item style={{backgroundColor:'#ecf0f1'}}
@@ -70,8 +83,12 @@ class Chat extends Component {
                 </div>
                 </ScrollWrapper>
             <Footer>
-                <InputItem ref={input=>this.input=input} extra={<div>发送</div>} type="text" onExtraClick={this.handleSubmit}>
+                    <InputItem placeholder="请输入" onChange={e=>this.setState({text:e})} value={this.state.text} ref={input=>this.input=input} extra={<div><span onClick={()=>{this.setState(state=>({showEmoji:!state.showEmoji}));this.fixedGrid();}} style={{marginRight:'6px'}}>😉</span> <span onClick={this.handleSubmit}>发送</span></div>} type="text" >
                     </InputItem>
+                    {
+                        this.state.showEmoji?(<Grid data={emoji} columnNum={6} carouselMaxRow={4} isCarousel={true} onClick={el=>this.setState(state=>({text:state.text+el.text}))}/>):null
+                    }
+                    
                 </Footer>
         </ChatWrapper>
         );
@@ -87,6 +104,9 @@ class Chat extends Component {
                 }
             });
         }); */
+    }
+    componentWillUnmount() {
+        this.props.readMsg(this.to);
     }
 }
 const mapStateToProps = function(state){
@@ -104,6 +124,10 @@ const mapDispatchToProps = function(dispatch) {
         },
         sendMsg(data) {
             const action = sendMsg(data);
+            dispatch(action);
+        },
+        readMsg(from) {
+            const action = readCurrentMsg(from);
             dispatch(action);
         }
     };

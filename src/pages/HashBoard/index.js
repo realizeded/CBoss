@@ -15,9 +15,10 @@ import Genius from '../Genius';
 } */
 import Person from '../Person';
 
-function Msg(props) {
+/* function Msg(props) {
     return (<div>msg</div>);
-}
+} */
+import Msg from '../Msg';
 // import Chat from '../Chat';
 /* function person(props) {
     return (<div>person</div>);
@@ -97,9 +98,9 @@ class HashBoard extends Component {
         );
     }
     componentDidMount() {
-        if(!this.props.enterFlag) {
-            this.props.loadMsg();
-        }
+
+         this.props.loadMsg();
+
         this.props.enterHashBoard();
     }
 }
@@ -118,7 +119,7 @@ const mapDispatchToProps = function(dispatch) {
             dispatch(action);
         },
         enterHashBoard() {
-            const action = getChaneEnterHashBoardFlagAction;
+            const action = getChaneEnterHashBoardFlagAction();
             dispatch(action);
         }    
     }

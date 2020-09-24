@@ -5,7 +5,15 @@ const filterKey = {
     pwd:0,
     _v:0
 };
-
+Router.get('/readmsg',(req,res)=>{
+    const from = req.query.from;
+    const to = req.cookies.userId;
+    const chat = models.getModel('chat');
+    chat.updateMany({from,to},{'$set':{read:true}},(err,doc)=>{
+        if(err) return res.json({code:0,msg:'更新失败'});
+        res.json({code:1,data:doc.nModified})
+    });
+});
 Router.get('/msgs',(req,res)=>{
     const userId = req.cookies.userId;
     const to = req.query.to;
@@ -17,6 +25,7 @@ Router.get('/msgs',(req,res)=>{
        delete filterObj[0].to;
        delete filterObj[1].from;
     }
+    console.log(filterObj)
     user.find({},(err,doc)=>{
         const users = {};
         doc.forEach(v=>{

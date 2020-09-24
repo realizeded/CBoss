@@ -22,6 +22,12 @@ const Footer = styled.div`
     left:0;
     right:0;
     z-index:9;
+    .am-grid-icon {
+        dispaly:none !important;
+    }
+    .am-grid-text {
+        margin-top:0 !important;
+    }
 `;
 const ScrollWrapper = styled.div`
     

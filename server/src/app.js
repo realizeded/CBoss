@@ -12,7 +12,7 @@ websocket 实时通讯功能
 */
 io.on('connection',socket=>{
    socket.on('sendMsg',data=>{
-      console.log(data);
+      // console.log(data);
        data.chatId = [data.to,data.from].sort().join('-'); 
        const chat = models.getModel('chat');
        chat.create(data,(err,doc)=>{

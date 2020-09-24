@@ -8,6 +8,7 @@ const LOAD_MSG = 'LOAD_MSG';
 const READ = 'READ';
 const RECIVE_MSG = 'RECIVE_MSG';
 const CHANGE_FLAG = 'CHANGE_FLAG';
+const READ_MSG = 'READ_MSG';
 //actionCreators
 export const getChaneEnterHashBoardFlagAction = function() {
     return {
@@ -31,12 +32,16 @@ function getReciveMsgAction(data,userId) {
 export function loadMsg(to) {
 
     return (dispatch,getState)=>{
-        socket.on('reciveMsg',data=>{
+        const enterHashBoardFlag = getState().getIn(['chat','enterHashBoardFlag']);
+        if(!enterHashBoardFlag) {
+            socket.on('reciveMsg',data=>{
             
-            const userId = getState().getIn(['user','_id']);
-            const action = getReciveMsgAction(data.data,userId);
-            dispatch(action);
-        });
+                const userId = getState().getIn(['user','_id']);
+                const action = getReciveMsgAction(data.data,userId);
+                dispatch(action);
+            });
+        }
+ 
         axios.get('/user/msgs?to='+to).then(res=>{
             if(res.status===200&&res.data.code===1) {
                 //success
@@ -52,6 +57,23 @@ export function sendMsg({from,to,msg}) {
         socket.emit('sendMsg',{from,to,content:msg})
     };
 }
+function readMsg(payload) {
+    return {
+        type:READ_MSG,
+        payload
+    };
+}
+export function readCurrentMsg(from) {
+   
+    return (dispatch,getState)=>{
+        axios.get('/user/readmsg?from='+from).then(res=>{
+            if(res.status===200&&res.data.code===1) {
+                const user = getState().getIn(['user','_id']);
+                dispatch(readMsg({from,to:user,num:res.data.data}));
+            }
+        });
+    }
+}
 //defaultsttate
 const defaultState = fromJS({
     msgs:[],
@@ -61,6 +83,12 @@ const defaultState = fromJS({
 });
 //actionsMethos
 const actionMethods = {
+    [READ_MSG](state,action) {
+        return state.merge({
+            msgs:state.get('msgs').map(v=>(fromJS({...v,read:v.get('from')===action.payload.from?true:v.get('read')}))),
+            unread:(state.get('unread')-action.payload.num)
+        });
+    },
     [CHANGE_FLAG](state,action) {
         return state.set('enterHashBoardFlag',true);
     },
@@ -88,7 +116,7 @@ const actionMethods = {
             msgs:fromJS(state.get('msgs').push(payload))
         }); */
         //set
-        return state.set('msgs',[...state.get('msgs'),fromJS(payload)]).set('unread',unread);
+        return state.set('msgs',[...state.get('msgs'),fromJS(payload)]).set('unread',unread).set('enterHashBoardFlag',state.get('enterHashBoardFlag'));
     }
     }
 
