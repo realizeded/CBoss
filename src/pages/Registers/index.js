@@ -35,7 +35,7 @@ class Registers extends React.Component{
         const {readirctToPath,errMsg} = this.props;
         return (
             <RegisterWrapper>
-                {readirctToPath.length===0?null:<Redirect to={readirctToPath}/>}
+                {readirctToPath.length===0||readirctToPath==='/login'?null:<Redirect to={readirctToPath}/>}
                 <Logo/>
                 <div>
                     <WingBlank>

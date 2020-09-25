@@ -34,6 +34,7 @@ export function loadMsg(to) {
     return (dispatch,getState)=>{
         const enterHashBoardFlag = getState().getIn(['chat','enterHashBoardFlag']);
         if(!enterHashBoardFlag) {
+            
             socket.on('reciveMsg',data=>{
             
                 const userId = getState().getIn(['user','_id']);
@@ -98,7 +99,8 @@ const actionMethods = {
             msgs:[...payload.msgs],
             users:{...payload.users},
             unread:payload.msgs.filter(v=>!v.read).length,
-            enterHashBoardFlag:state.get('enterHashBoardFlag')
+            enterHashBoardFlag:state.get('enterHashBoardFlag'),
+            enterHashBoardFlag:true
         });
     },
     [RECIVE_MSG](state,action) {

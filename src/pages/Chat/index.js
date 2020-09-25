@@ -25,7 +25,7 @@ class Chat extends Component {
                 showEmoji:false
             }
         })
-        
+        // alert(this.from);
         this.props.sendMsg({to:this.to,from:this.from,msg:value});
     }
     fixedGrid() {
